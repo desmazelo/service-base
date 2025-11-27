@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: initial_schema/01-create-auth-schema.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: initial_schema/02-create-user-table.yaml
+      relativeToChangelogFile: true

@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: service-base
+  datasource:
+    url: jdbc:postgresql://localhost:5432/servicebasedb
+    username: postgres
+    password: mypassword
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: auth
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml # Aponta para o arquivo principal
+    default-schema: auth
+  logging:
+    level:
+      # CRÍTICO: Para vermos o que o Liquibase está fazendo
+      liquibase: DEBUG
+      org.hibernate.SQL: DEBUG # Opcional, para ver as queries
+api:
+  security:
+    token:
+      secret: MINHA_CHAVE_SUPER_SECRETA_E_FORTE_PARA_JWT

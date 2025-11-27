@@ -1,0 +1,47 @@
+### Build Artifacts ###
+# Maven target directory
+target/
+# Maven wrapper backup
+!.mvn/wrapper/maven-wrapper.jar
+
+### IDE Specific ###
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+# Logs e Caches específicos do usuário que podem estar fora de .idea/
+out/
+.vscode/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### OS Specific ###
+.DS_Store
+Thumbs.db
+
+### Security and Secrets (Boas Práticas) ###
+*.key
+*.jks
+*.p12
+.env
+/secrets/
+/config/secrets.*
