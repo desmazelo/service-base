@@ -32,7 +32,7 @@ public class User implements UserDetails { // Implementa UserDetails para o Spri
     @Column(nullable = false, unique = true, length = 150)
     private String username;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
