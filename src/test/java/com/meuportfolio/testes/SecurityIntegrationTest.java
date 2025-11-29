@@ -1,10 +1,15 @@
 package com.meuportfolio.testes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.meuportfolio.domain.UserRole;
 import com.meuportfolio.dtos.AuthenticationRequest;
+import com.meuportfolio.dtos.RegisterRequest;
 import com.meuportfolio.repositories.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,14 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class SecurityIntegrationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private  MockMvc mockMvc;
+    @Autowired private  ObjectMapper objectMapper;
+    @Autowired private  UserRepository userRepository;
 
     private String adminUsername = "admin";
     private String adminPassword = "admin123";
@@ -102,4 +102,39 @@ public class SecurityIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void shoulRegisterNewUserSucessfully() throws Exception {
+        RegisterRequest newUserRequest = new RegisterRequest(
+                "novo_usuario_test",
+                "senhaForte123",
+                "novo.user@teste.com",
+                UserRole.USER
+        );
+        mockMvc.perform(
+                post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newUserRequest)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("novo_usuario_test"));
+
+        Assertions.assertNotNull(userRepository.findByUsername("novo_usuario_test"),"O usuario deve ser salvo no banco após o registro");
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenRegisteringExistingUsername() throws Exception{
+        RegisterRequest existingUserRequest = new RegisterRequest(
+                adminUsername, // "admin"
+                "qualquerSenha",
+                "admin_repetido@teste.com",
+                UserRole.USER
+        );
+
+        mockMvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(existingUserRequest)))
+
+                .andExpect(status().isBadRequest());
+    }
+
 }
