@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: rafaelcampos
+      changes:
+        - insert:
+            tableName: tb_user
+            schemaName: auth
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  # Use seu hash BCrypt gerado para 'admin123' (ou similar)
+                  value: "$2a$10$C82o50tO.M4sWk9Yd5f50.YhB/C2aXw4gXzL1Hj3g7E.zT5A7S9k."
+              - column:
+                  name: email
+                  value: admin@meuportfolio.com
+              - column:
+                  name: role
+                  value: ADMIN
+              - column:
+                  name: created_at
+                  valueComputed: NOW()
+              - column:
+                  name: updated_at
+                  valueComputed: NOW()
