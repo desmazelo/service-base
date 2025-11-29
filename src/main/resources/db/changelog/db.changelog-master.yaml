@@ -5,3 +5,9 @@ databaseChangeLog:
   - include:
       file: initial_schema/02-create-user-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: initial_schema/03-insert_admin_user.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: initial_schema/04-add-is-active-column.yaml
+      relativeToChangelogFile: true
