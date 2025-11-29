@@ -12,11 +12,11 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        default_schema: auth
+#        default_schema: auth
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml # Aponta para o arquivo principal
-    default-schema: auth
+#    default-schema: auth
   logging:
     level:
       # CRÍTICO: Para vermos o que o Liquibase está fazendo
