@@ -4,5 +4,5 @@ databaseChangeLog:
       author: rafaelcampos
       changes:
         - sql:
-            # Comando SQL puro para criar o schema
-            sql: CREATE SCHEMA IF NOT EXISTS auth;
+            sql: |
+              CREATE SCHEMA IF NOT EXISTS auth;
