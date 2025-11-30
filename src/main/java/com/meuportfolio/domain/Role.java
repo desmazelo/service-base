@@ -19,10 +19,11 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Override
     public String getAuthority() {
-        return "";
+        return this.name;
     }
 }
