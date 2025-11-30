@@ -29,17 +29,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Regras de Autorização: o que é público e o que é privado
                 .authorizeHttpRequests(authorize -> authorize
-                        // Endpoint de login deve ser acessível publicamente (permitido)
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-
-                        // Endpoint de registro/criação de novo usuário (se for público)
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-
-                        // Exemplo: Rotas de ADMIN exigem o perfil ADMIN
-                        // .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
-
-                        // Todas as outras requisições devem ser autenticadas
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/test/protected").authenticated()
+                        .anyRequest().denyAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

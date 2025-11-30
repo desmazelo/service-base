@@ -6,10 +6,8 @@ import com.meuportfolio.dtos.AuthenticationRequest;
 import com.meuportfolio.dtos.RegisterRequest;
 import com.meuportfolio.repositories.UserRepository;
 
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,23 +34,6 @@ public class SecurityIntegrationTest {
     private String adminPassword = "admin123";
     private String PROTECTED_URL = "/test/protected"; // URL que criaremos para teste
 
-    /**
-     * Endpoint de teste simples.
-     * Precisamos de um endpoint protegido para testar o SecurityFilter.
-     * Você deve criar este Controller no código de produção para o teste funcionar.
-     */
-    // Crie este controller no seu pacote de controllers (com.meuportfolio.controllers)
-    // @RestController
-    // @RequestMapping("/test")
-    // public class TestController {
-    //     @GetMapping("/protected")
-    //     public ResponseEntity<String> protectedEndpoint() {
-    //         return ResponseEntity.ok("Acesso Autorizado!");
-    //     }
-    // }
-
-    // --- TESTES DE AUTENTICAÇÃO (LOGIN) ---
-
     @Test
     void shouldAuthenticateAndReturnToken() throws Exception {
         // Objeto DTO de requisição de autenticação
@@ -78,8 +59,6 @@ public class SecurityIntegrationTest {
                 .andExpect(status().isForbidden());
     }
 
-    // --- TESTES DE AUTORIZAÇÃO (JWT FILTER) ---
-
     @Test
     void shouldReturn403WhenAccessingProtectedWithoutToken() throws Exception {
         // Tenta acessar a URL protegida sem nenhum token
@@ -88,11 +67,6 @@ public class SecurityIntegrationTest {
                 // Espera 403 Forbidden (ou 401 Unauthorized, dependendo da configuração exata do Filter)
                 .andExpect(status().isForbidden());
     }
-
-    // O teste para acesso com token requer que o token real seja extraído do teste de login
-    // e reutilizado, o que é mais complexo. Por enquanto, focaremos nos testes de Login e Acesso Negado.
-
-    // --- Próxima Fase: Testar autorização por Role ---
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
@@ -135,6 +109,24 @@ public class SecurityIntegrationTest {
                         .content(objectMapper.writeValueAsString(existingUserRequest)))
 
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles={"admin"})
+    void shouldAllowAccessToAdminRouteWithAdminRole() throws Exception {
+        mockMvc.perform(get("/admin/dashboard")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isForbidden()
+                        );
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = {"USER"})
+    void shouldDenyAccessToAdminRouteWithOnlyUserRole() throws Exception {
+        mockMvc.perform(get("/admin/dashboard")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isForbidden()
+                        );
     }
 
 }

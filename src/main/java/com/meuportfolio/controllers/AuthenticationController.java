@@ -39,11 +39,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid RegisterRequest request) {
-        try {
             User newUser = this.authorizationService.register(request);
             return ResponseEntity.ok(newUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
     }
 }
