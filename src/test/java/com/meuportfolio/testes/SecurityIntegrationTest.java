@@ -116,7 +116,7 @@ public class SecurityIntegrationTest {
     void shouldAllowAccessToAdminRouteWithAdminRole() throws Exception {
         mockMvc.perform(get("/admin/dashboard")
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isForbidden()
+                        .andExpect(status().isOk()
                         );
     }
 

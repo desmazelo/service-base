@@ -27,12 +27,17 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Regras de Autorização: o que é público e o que é privado
+                // Regras de Autorização
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                        // Permite acesso público a Login/Registro
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/test/protected").authenticated()
-                        .anyRequest().denyAll()
+
+                        // Garante que APENAS ADMINs acessem /admin/**
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Exige autenticação para qualquer outra rota
+                        // 💡 CORREÇÃO: Usar authenticated() em vez de denyAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
