@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 // Anotações Lombok
@@ -38,8 +39,14 @@ public class User implements UserDetails { // Implementa UserDetails para o Spri
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tb_user_roles",
+            schema = "auth",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @Column(name = "is_active")
     private Boolean isActive = true;
@@ -52,18 +59,17 @@ public class User implements UserDetails { // Implementa UserDetails para o Spri
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public User(String username, String password, String email, UserRole role) {
+    public User(String username, String password, String email,Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
         this.isActive = true; // Valor padrão de negócio
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return this.roles;
     }
 
     @Override

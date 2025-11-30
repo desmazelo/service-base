@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 09
+      author: rafaelcampos
+      changes:
+        - insert:
+            tableName: tb_user_roles
+            schemaName: auth
+            columns:
+              - column:
+                  name: user_id
+                  value: 1b133527-3755-460d-88f5-b3e7178c5207 # ID do Admin
+              - column:
+                  name: role_id
+                  value: 395c1c02-e25f-4638-963d-495a828976a1 # ID da ROLE_ADMIN

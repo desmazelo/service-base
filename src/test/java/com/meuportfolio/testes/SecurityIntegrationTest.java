@@ -83,7 +83,7 @@ public class SecurityIntegrationTest {
                 "novo_usuario_test",
                 "senhaForte123",
                 "novo.user@teste.com",
-                UserRole.USER
+                "ROLE_USER"
         );
         mockMvc.perform(
                 post("/auth/register")
@@ -101,7 +101,7 @@ public class SecurityIntegrationTest {
                 adminUsername, // "admin"
                 "qualquerSenha",
                 "admin_repetido@teste.com",
-                UserRole.USER
+                "ROLE_USER"
         );
 
         mockMvc.perform(post("/auth/register")
@@ -112,7 +112,7 @@ public class SecurityIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", roles={"admin"})
+    @WithMockUser(username = "admin", roles={"ADMIN"})
     void shouldAllowAccessToAdminRouteWithAdminRole() throws Exception {
         mockMvc.perform(get("/admin/dashboard")
                         .contentType(MediaType.APPLICATION_JSON))

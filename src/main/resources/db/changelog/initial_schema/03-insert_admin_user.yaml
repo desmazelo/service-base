@@ -8,6 +8,9 @@ databaseChangeLog:
             schemaName: auth
             columns:
               - column:
+                  name: id # 💡 ADICIONADO: ID Fixo para referenciar no Changeset 09
+                  value: 1b133527-3755-460d-88f5-b3e7178c5207
+              - column:
                   name: username
                   value: admin
               - column:

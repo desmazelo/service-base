@@ -11,3 +11,18 @@ databaseChangeLog:
   - include:
       file: initial_schema/03-insert_admin_user.yaml
       relativeToChangelogFile: true
+  - include:
+      file: initial_schema/05-create-role-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: initial_schema/06-create-user-roles-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: initial_schema/07-insert-initial-roles.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: initial_schema/08-drop-user-role-column.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: initial_schema/09-insert-admin-link-roles.yaml
+      relativeToChangelogFile: true

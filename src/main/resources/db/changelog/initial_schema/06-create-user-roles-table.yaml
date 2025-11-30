@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 06
+      author: rafaelcampos
+      changes:
+        - createTable:
+            tableName: tb_user_roles
+            schemaName: auth
+            columns:
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            columnNames: user_id, role_id
+            tableName: tb_user_roles
+            schemaName: auth
+            constraintName: pk_user_roles
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: tb_user_roles
+            baseTableSchemaName: auth
+            constraintName: fk_user_roles_on_user
+            referencedColumnNames: id
+            referencedTableName: tb_user
+            referencedTableSchemaName: auth
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: tb_user_roles
+            baseTableSchemaName: auth
+            constraintName: fk_user_roles_on_role
+            referencedColumnNames: id
+            referencedTableName: tb_role
+            referencedTableSchemaName: auth

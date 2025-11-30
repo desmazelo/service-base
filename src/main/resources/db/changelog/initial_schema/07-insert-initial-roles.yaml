@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 07
+      author: rafaelcampos
+      changes:
+        - insert:
+            tableName: tb_role
+            schemaName: auth
+            columns:
+              - column:
+                  name: id
+                  value: 395c1c02-e25f-4638-963d-495a828976a1 # ID FIXO PARA ROLE_ADMIN
+              - column:
+                  name: name
+                  value: ROLE_ADMIN
+        - insert:
+            tableName: tb_role
+            schemaName: auth
+            columns:
+              - column:
+                  name: id
+                  value: 588a44b3-c1c6-455b-800a-4710189b884d # ID FIXO PARA ROLE_USER
+              - column:
+                  name: name
+                  value: ROLE_USER

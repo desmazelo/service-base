@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 08
+      author: rafaelcampos
+      changes:
+        - dropColumn:
+            tableName: tb_user
+            schemaName: auth
+            columnName: role
